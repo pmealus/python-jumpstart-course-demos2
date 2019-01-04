@@ -1,5 +1,8 @@
 # imports
+import time
+
 from actors import Wizard, Creature
+import random
 
 
 def main():
@@ -26,14 +29,23 @@ def game_loop():
 
     hero = Wizard('Krondor', 75)
 
-    print(creatures)
+    #print(creatures)
 
     while True:
+
+        baddy = random.choice(creatures)
+        print("A level {} {} has appeared".format(baddy.level, baddy.name))
+
         cmd = input('Would you like to [a]ttack, [l]ook around, or [r]unaway?')
         cmd = cmd.lower()
 
         if cmd == 'a':
-            print('attacking')
+            if hero.attack(baddy):
+                creatures.remove(baddy)
+            else:
+                print("The wizard must meditate.")
+                time.sleep(3)
+                print("The wizard recovers.")
         elif cmd == 'l':
             print('looking around')
         elif cmd == 'r':
@@ -42,6 +54,7 @@ def game_loop():
             print('Exiting')
             break
 
+        print()
 
 if __name__ == '__main__':
     main()
